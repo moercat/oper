@@ -1,4 +1,4 @@
-package op
+package oper
 
 import (
 	"github.com/shopspring/decimal"
