@@ -12,12 +12,12 @@ func Parse(fat interface{}) string {
 	return fats.Format("2006-01-02 15:04:05")
 }
 
-// TodayDate time.Now().Format("2006-01-02")
-func TodayDate() string {
+// Today time.Now().Format("2006-01-02")
+func Today() string {
 	return time.Now().Format("2006-01-02")
 }
 
-// YesterdayDate time.Now().AddDate(0, 0, -1).Format("2006-01-02")
-func YesterdayDate() string {
+// Yesterday time.Now().AddDate(0, 0, -1).Format("2006-01-02")
+func Yesterday() string {
 	return time.Now().AddDate(0, 0, -1).Format("2006-01-02")
 }
