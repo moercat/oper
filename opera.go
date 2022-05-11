@@ -6,7 +6,7 @@ import (
 )
 
 // Opera item + 为 乘 - 为除
-func Opera(str interface{}, item int64) string {
+func Opera[N List](str N, item int64) string {
 	st := cast.ToString(str)
 	deci, _ := decimal.NewFromString(st)
 	i := decimal.NewFromInt(item)

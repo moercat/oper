@@ -1,73 +1,71 @@
 package oper
 
-import (
-	"github.com/spf13/cast"
-)
+type Number interface {
+	~int8 | ~int16 | ~int | ~int32 | ~int64 |
+		~uint8 | ~uint16 | ~uint | ~uint32 | ~uint64
+}
 
-func In(fat, sub interface{}) bool {
+type List interface {
+	Number | ~string
+}
+
+func In[N List](fat []N, sub N) bool {
 	_, ok := InI(fat, sub)
 	return ok
 }
 
-func Index(fat, idx interface{}) int {
+func Index[N List](fat []N, idx N) int {
 	index, _ := InI(fat, idx)
 	return index
 }
 
-func Extend(fat, sub interface{}) interface{} {
-	fats := cast.ToStringSlice(fat)
-	subs := cast.ToStringSlice(sub)
+func Extend[N List](fat []N, sub []N) []N {
 
-	fats = append(fats, subs...)
+	fat = append(fat, sub...)
 
-	return fats
+	return fat
 }
 
-func Pop(fat interface{}, idx int) interface{} {
-	fats := cast.ToStringSlice(fat)
-	if idx < 0 {
-		idx = len(fats) + idx
+func Pop[N List](fat []N, idx int) []N {
+	if idx >= len(fat) || len(fat)+idx < 0 {
+		return nil
 	}
 
-	return append(fats[:idx], fats[(idx+1):]...)
+	if idx < 0 {
+		idx = len(fat) + idx
+	}
+
+	return append(fat[:idx], fat[(idx+1):]...)
 }
 
-func Remove(fat interface{}, value interface{}) interface{} {
-	fats := cast.ToStringSlice(fat)
-	str := cast.ToString(value)
-	for i, v := range fats {
-		if v == str {
-			fat = append(fats[:i], fats[(i+1):]...)
+func Remove[N List](fat []N, value N) []N {
+	for i, v := range fat {
+		if v == value {
+			fat = append(fat[:i], fat[(i+1):]...)
 		}
-
 	}
 
 	return fat
 }
 
-func Append(fat interface{}, value interface{}) interface{} {
-	fats := cast.ToStringSlice(fat)
-	str := cast.ToString(value)
+func Append[N List](fat []N, value N) []N {
 
-	return append(fats, str)
+	return append(fat, value)
 }
 
-func Insert(fat interface{}, idx int, value interface{}) interface{} {
-	fats := cast.ToStringSlice(fat)
-	str := cast.ToString(value)
+func Insert[N List](fat []N, idx int, value N) []N {
+	var res = make([]N, len(fat), len(fat)+1)
+	copy(res, fat)
 
-	res := append(fats[:idx], str)
-	fat = append(res, fats[idx:]...)
+	res = append(res[:idx], value)
 
-	return append(res, fats[idx:]...)
+	return append(res, fat[idx:]...)
 }
 
-func Count(fat interface{}, value interface{}) (count int) {
-	fats := cast.ToStringSlice(fat)
-	str := cast.ToString(value)
+func Count[N List](fat []N, value N) (count int) {
 
-	for _, v := range fats {
-		if v == str {
+	for _, v := range fat {
+		if v == value {
 			count += 1
 		}
 	}
@@ -75,12 +73,10 @@ func Count(fat interface{}, value interface{}) (count int) {
 	return count
 }
 
-func InI(fat interface{}, sub interface{}) (int, bool) {
-	fats := cast.ToStringSlice(fat)
-	s := cast.ToString(sub)
+func InI[N List](fat []N, sub N) (int, bool) {
 
-	for i, v := range fats {
-		if v == s {
+	for i, v := range fat {
+		if v == sub {
 			return i, true
 		}
 	}
@@ -88,14 +84,12 @@ func InI(fat interface{}, sub interface{}) (int, bool) {
 	return -1, false
 }
 
-func Equal(fat, sub interface{}) bool {
-	s1 := cast.ToStringSlice(fat)
-	s2 := cast.ToStringSlice(sub)
-	if len(s1) != len(s2) {
+func Equal[N List](fat []N, sub []N) bool {
+	if len(fat) != len(sub) {
 		return false
 	}
-	for i, n := range s1 {
-		if n != s2[i] {
+	for i, n := range fat {
+		if n != sub[i] {
 			return false
 		}
 	}
