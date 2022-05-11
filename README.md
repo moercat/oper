@@ -41,21 +41,16 @@ The most suitable operation package for the job
 ```go
 package main
 
-import (
-	"fmt"
-	"oper"
-)
-
 func main() {
 
-	list := []int{
-		1, 2, 3,
-	}
+	//list := []int{
+	//	1, 2, 3,
+	//}
 	// param Slice sub
 	// return bool if exist true 
-	exist := oper.In(list, 1)
+	// exist := oper.In(list, 1)
 	// exist true list is  []int{ 1, 2, 3, } has 1
-	fmt.Println(exist)
+	// fmt.Println(exist)
 
 }
 
