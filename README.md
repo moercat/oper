@@ -4,6 +4,9 @@ The most suitable operation package for the job
 
 最符合工作需要的操作包
 
+![example](https://img.shields.io/badge/License-MIT-green)
+![example](https://img.shields.io/badge/Go-1.16-blue)
+
 ## 目的
 
 本项目采用了Golang 来制作 Python 中比较流行的组件，作为迅捷开发的工具，减少重复造轮子的时间
