@@ -5,10 +5,15 @@ import (
 	"github.com/spf13/cast"
 )
 
-// Opera item + 为 乘 - 为除
+// Opera item > 0 为 乘法, item < 0 为除法
 func Opera[N List](str N, item int64) string {
 	st := cast.ToString(str)
-	deci, _ := decimal.NewFromString(st)
+	deci, err := decimal.NewFromString(st)
+	if err != nil {
+		// 如果不能转换为decimal，则返回原字符串
+		return st
+	}
+
 	i := decimal.NewFromInt(item)
 
 	if item < 0 {
